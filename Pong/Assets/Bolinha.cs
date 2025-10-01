@@ -10,18 +10,15 @@ public class Bolinha : MonoBehaviour
     {
         rb= GetComponent<Rigidbody2D>();
         
+        JogarBolinha();
+    }
+
+    public void JogarBolinha()
+    {
         float x = Random.Range(-1.0f,1.0f); 
         float y = Random.Range(-1.0f,1.0f);
         
         rb.linearVelocity = new Vector2(x,y).normalized * velocidade;
-    }
-
-    
-
-
-    void Update()
-    {
-        
     }
 }
 
