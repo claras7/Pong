@@ -1,33 +1,60 @@
-using TMPro;
 using UnityEngine;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public Bolinha bo;
-    public TextMeshProUGUI jogadorSocre;
-    public TextMeshProUGUI inimigoSocre;
+    public TextMeshProUGUI jogadorScore;
+    public TextMeshProUGUI inimigoScore;
+    public TextMeshProUGUI mensagemFim;
 
     private int jScore = 0;
     private int iScore = 0;
+    private int pontosParaVencer = 12;
+
+    public bool jogoAcabou { get; private set; } = false;
 
     public void pontoInimigo()
     {
-        jScore += 1;
-        atualizarTudo();
+        if(jogoAcabou) return;
+        jScore++;
+        AtualizarTudo();
     }
+
     public void pontoJogador()
     {
-        iScore += 1;
-        atualizarTudo();
+        if(jogoAcabou) return;
+        iScore++;
+        AtualizarTudo();
     }
 
-
-    public void atualizarTudo()
+    void AtualizarTudo()
     {
-        //reseta bolinha
-        jogadorSocre.text = jScore.ToString();
-        inimigoSocre.text = iScore.ToString();
-        bo.JogarBolinha();
+        jogadorScore.text = jScore.ToString();
+        inimigoScore.text = iScore.ToString();
+
+        if(iScore >= pontosParaVencer && jScore >= pontosParaVencer)
+        {
+            mensagemFim.text = "EMPATE!";
+            Time.timeScale = 0;
+            jogoAcabou = true;
+        }
+        else if(iScore >= pontosParaVencer)
+        {
+            mensagemFim.text = "JOGADOR VENCEU!";
+            Time.timeScale = 0;
+            jogoAcabou = true;
+        }
+        else if(jScore >= pontosParaVencer)
+        {
+            mensagemFim.text = "INIMIGO VENCEU!";
+            Time.timeScale = 0;
+            jogoAcabou = true;
+        }
+        else
+        {
+            bool vaiParaInimigo = jScore > iScore;
+            bo.ResetarBola(vaiParaInimigo);
+        }
     }
 }
