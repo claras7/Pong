@@ -1,79 +1,77 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class PongServidor : MonoBehaviour
 {
-    UdpClient server;
-    public int port = 9050;
-
+    public Transform raqueteServidor;
+    public Transform raqueteCliente;
+    public Transform bolinha;
     public GameManager gm;
-    public Bolinha bolinha;
-    public Transform playerRaquete;
-    public Transform inimigoRaquete;
 
-    private bool vezDoJogador = true;
-    private IPEndPoint ultimoCliente = null;
+    private UdpClient udpServer;
+    private IPEndPoint remoteEndPoint;
+    private bool clienteConectado = false;
+    private float velocidadeRaquete = 8f;
 
-    async void Start()
+    private async void Start()
     {
-        server = new UdpClient(port);
-        Debug.Log("Servidor iniciado na porta " + port);
-        await ReceberMensagensAsync();
+        udpServer = new UdpClient(9050);
+        Debug.Log("Servidor iniciado na porta 9050");
+        _ = ReceberMensagensAsync();
     }
 
     private async Task ReceberMensagensAsync()
     {
         while(true)
         {
-            var result = await server.ReceiveAsync();
+            var result = await udpServer.ReceiveAsync();
             string msg = Encoding.UTF8.GetString(result.Buffer);
-            ultimoCliente = result.RemoteEndPoint;
 
-            // Movimentos do jogador
-            if(!gm.jogoAcabou && vezDoJogador)
+            if (!clienteConectado)
             {
-                if(msg == "UP")
-                    playerRaquete.position += Vector3.up * 0.5f;
-                else if(msg == "DOWN")
-                    playerRaquete.position += Vector3.down * 0.5f;
-
-                vezDoJogador = false;
+                clienteConectado = true;
+                remoteEndPoint = result.RemoteEndPoint;
+                Debug.Log("Cliente conectado: " + remoteEndPoint);
             }
 
-            // Envia estado atualizado
-            EnviarEstado();
+            if(msg == "UP") MoverRaquete(raqueteCliente, 1);
+            else if(msg == "DOWN") MoverRaquete(raqueteCliente, -1);
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if(gm.jogoAcabou) return;
+        if (gm != null && gm.jogoAcabou) return;
 
-        // Bola e raquete inimigo continuam quicando normalmente
-        // Aqui podemos adicionar lógica da raquete inimigo se quiser
-        // Para teste, raquete inimigo fica fixa
+        // Movimenta raquete do servidor
+        if(Input.GetKey(KeyCode.UpArrow)) MoverRaquete(raqueteServidor, 1);
+        else if(Input.GetKey(KeyCode.DownArrow)) MoverRaquete(raqueteServidor, -1);
 
-        // Alterna turno
-        vezDoJogador = true;
+        // Envia estado do jogo se cliente conectado
+        if(clienteConectado) EnviarEstado();
     }
 
-    void EnviarEstado()
+    private void MoverRaquete(Transform raquete, int direcao)
     {
-        if(ultimoCliente == null) return;
-
-        string estado = $"STATE,{bolinha.transform.position.x},{bolinha.transform.position.y}," +
-                        $"{playerRaquete.position.y},{inimigoRaquete.position.y},{vezDoJogador}," +
-                        $"{gm.jogoAcabou},{gm.mensagemFim.text}";
-
-        byte[] data = Encoding.UTF8.GetBytes(estado);
-        server.Send(data, data.Length, ultimoCliente);
+        Vector3 pos = raquete.position;
+        pos.y += direcao * velocidadeRaquete * Time.deltaTime;
+        pos.y = Mathf.Clamp(pos.y, -4f, 4f);
+        raquete.position = pos;
     }
 
-    void OnApplicationQuit()
+    private void EnviarEstado()
     {
-        server.Close();
+        if(remoteEndPoint == null) return;
+        string msg = $"{raqueteServidor.position.y};{raqueteCliente.position.y};{bolinha.position.x};{bolinha.position.y}";
+        byte[] data = Encoding.UTF8.GetBytes(msg);
+        udpServer.Send(data, data.Length, remoteEndPoint);
+    }
+
+    private void OnApplicationQuit()
+    {
+        udpServer?.Close();
     }
 }
