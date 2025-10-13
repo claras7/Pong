@@ -16,7 +16,7 @@ public class PongServidor : MonoBehaviour
     private bool clienteConectado = false;
     private float velocidadeRaquete = 8f;
 
-    private async void Start()
+    private void Start()
     {
         udpServer = new UdpClient(9050);
         Debug.Log("Servidor iniciado na porta 9050");
@@ -25,7 +25,7 @@ public class PongServidor : MonoBehaviour
 
     private async Task ReceberMensagensAsync()
     {
-        while(true)
+        while (true)
         {
             var result = await udpServer.ReceiveAsync();
             string msg = Encoding.UTF8.GetString(result.Buffer);
@@ -37,8 +37,8 @@ public class PongServidor : MonoBehaviour
                 Debug.Log("Cliente conectado: " + remoteEndPoint);
             }
 
-            if(msg == "UP") MoverRaquete(raqueteCliente, 1);
-            else if(msg == "DOWN") MoverRaquete(raqueteCliente, -1);
+            if (msg == "UP") MoverRaquete(raqueteCliente, 1);
+            else if (msg == "DOWN") MoverRaquete(raqueteCliente, -1);
         }
     }
 
@@ -47,11 +47,11 @@ public class PongServidor : MonoBehaviour
         if (gm != null && gm.jogoAcabou) return;
 
         // Movimenta raquete do servidor
-        if(Input.GetKey(KeyCode.UpArrow)) MoverRaquete(raqueteServidor, 1);
-        else if(Input.GetKey(KeyCode.DownArrow)) MoverRaquete(raqueteServidor, -1);
+        if (Input.GetKey(KeyCode.UpArrow)) MoverRaquete(raqueteServidor, 1);
+        else if (Input.GetKey(KeyCode.DownArrow)) MoverRaquete(raqueteServidor, -1);
 
         // Envia estado do jogo se cliente conectado
-        if(clienteConectado) EnviarEstado();
+        if (clienteConectado) EnviarEstado();
     }
 
     private void MoverRaquete(Transform raquete, int direcao)
@@ -64,8 +64,11 @@ public class PongServidor : MonoBehaviour
 
     private void EnviarEstado()
     {
-        if(remoteEndPoint == null) return;
-        string msg = $"{raqueteServidor.position.y};{raqueteCliente.position.y};{bolinha.position.x};{bolinha.position.y}";
+        if (remoteEndPoint == null) return;
+
+        string msg = $"{raqueteServidor.position.y};{raqueteCliente.position.y};" +
+                     $"{bolinha.position.x};{bolinha.position.y};" +
+                     $"{gm.JogadorScore};{gm.InimigoScore}";
         byte[] data = Encoding.UTF8.GetBytes(msg);
         udpServer.Send(data, data.Length, remoteEndPoint);
     }

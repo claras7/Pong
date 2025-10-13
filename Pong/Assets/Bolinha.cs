@@ -20,7 +20,6 @@ public class Bolinha : MonoBehaviour
     {
         float x = direcaoParaDireita ? 1f : -1f;
         float y = Random.Range(-0.5f, 0.5f);
-
         rb.linearVelocity = new Vector2(x, y).normalized * velocidade;
     }
 

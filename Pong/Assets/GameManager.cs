@@ -4,48 +4,48 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public Bolinha bo;
-    public TextMeshProUGUI jogadorScore;
-    public TextMeshProUGUI inimigoScore;
+    public TextMeshProUGUI jogadorScoreText;
+    public TextMeshProUGUI inimigoScoreText;
     public TextMeshProUGUI mensagemFim;
 
-    private int jScore = 0;
-    private int iScore = 0;
-    private int pontosParaVencer = 12;
+    public int JogadorScore { get; set; } = 0;
+    public int InimigoScore { get; set; } = 0;
 
+    private int pontosParaVencer = 12;
     public bool jogoAcabou { get; private set; } = false;
 
-    public void pontoInimigo()
+    public void PontoJogador()
     {
-        if(jogoAcabou) return;
-        jScore++;
+        if (jogoAcabou) return;
+        JogadorScore++;
         AtualizarTudo();
     }
 
-    public void pontoJogador()
+    public void PontoInimigo()
     {
-        if(jogoAcabou) return;
-        iScore++;
+        if (jogoAcabou) return;
+        InimigoScore++;
         AtualizarTudo();
     }
 
-    void AtualizarTudo()
+    private void AtualizarTudo()
     {
-        jogadorScore.text = jScore.ToString();
-        inimigoScore.text = iScore.ToString();
+        jogadorScoreText.text = JogadorScore.ToString();
+        inimigoScoreText.text = InimigoScore.ToString();
 
-        if(iScore >= pontosParaVencer && jScore >= pontosParaVencer)
+        if (JogadorScore >= pontosParaVencer && InimigoScore >= pontosParaVencer)
         {
             mensagemFim.text = "EMPATE!";
             Time.timeScale = 0;
             jogoAcabou = true;
         }
-        else if(iScore >= pontosParaVencer)
+        else if (JogadorScore >= pontosParaVencer)
         {
             mensagemFim.text = "JOGADOR VENCEU!";
             Time.timeScale = 0;
             jogoAcabou = true;
         }
-        else if(jScore >= pontosParaVencer)
+        else if (InimigoScore >= pontosParaVencer)
         {
             mensagemFim.text = "INIMIGO VENCEU!";
             Time.timeScale = 0;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            bool vaiParaInimigo = jScore > iScore;
+            bool vaiParaInimigo = JogadorScore > InimigoScore;
             bo.ResetarBola(vaiParaInimigo);
         }
     }

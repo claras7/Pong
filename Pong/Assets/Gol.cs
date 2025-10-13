@@ -7,12 +7,12 @@ public class Gol : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("bolinha"))
+        if (other.CompareTag("bolinha"))
         {
-            if(golDoJogador)
-                gm.pontoInimigo();
+            if (golDoJogador)
+                gm.PontoInimigo();
             else
-                gm.pontoJogador();
+                gm.PontoJogador();
         }
     }
 }
