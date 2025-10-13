@@ -820,7 +820,7 @@ GameObject:
   - component: {fileID: 902318682}
   - component: {fileID: 902318681}
   m_Layer: 5
-  m_Name: inimigo
+  m_Name: ScoreJogador
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: 1052110934}
   - component: {fileID: 1052110933}
   m_Layer: 5
-  m_Name: jogador
+  m_Name: ScoreInimigo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1248,7 +1248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.0993, y: 0}
+  m_AnchoredPosition: {x: -2.0993042, y: 0}
   m_SizeDelta: {x: -976.3741, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1089145879
@@ -1512,8 +1512,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bo: {fileID: 614813269}
-  jogadorScoreText: {fileID: 1052110933}
-  inimigoScoreText: {fileID: 902318681}
+  jogadorScoreText: {fileID: 902318681}
+  inimigoScoreText: {fileID: 1052110933}
   mensagemFim: {fileID: 2065395437}
 --- !u!4 &1350600978
 Transform:
