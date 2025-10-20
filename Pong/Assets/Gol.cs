@@ -6,13 +6,14 @@ public class Gol : MonoBehaviour
     public GameManager gm;
 
     private void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("bolinha"))
     {
-        if (other.CompareTag("bolinha"))
-        {
-            if (golDoJogador)
-                gm.PontoInimigo();
-            else
-                gm.PontoJogador();
-        }
+        if (golDoJogador)
+            gm.PontoLadoDireito();   // antes era PontoJogador()
+        else
+            gm.PontoLadoEsquerdo();  // antes era PontoInimigo()
     }
+}
+
 }

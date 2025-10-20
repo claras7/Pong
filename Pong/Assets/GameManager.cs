@@ -8,20 +8,20 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI inimigoScoreText;
     public TextMeshProUGUI mensagemFim;
 
-    public int JogadorScore { get; set; } = 0;
-    public int InimigoScore { get; set; } = 0;
+    public int JogadorScore { get; set; } = 0;   // Lado esquerdo
+    public int InimigoScore { get; set; } = 0;   // Lado direito
 
     private int pontosParaVencer = 12;
     public bool jogoAcabou { get; private set; } = false;
 
-    public void PontoJogador()
+    public void PontoLadoEsquerdo()
     {
         if (jogoAcabou) return;
         JogadorScore++;
         AtualizarTudo();
     }
 
-    public void PontoInimigo()
+    public void PontoLadoDireito()
     {
         if (jogoAcabou) return;
         InimigoScore++;
@@ -41,20 +41,20 @@ public class GameManager : MonoBehaviour
         }
         else if (JogadorScore >= pontosParaVencer)
         {
-            mensagemFim.text = "JOGADOR VENCEU!";
+            mensagemFim.text = "LADO ESQUERDO GANHOU!";
             Time.timeScale = 0;
             jogoAcabou = true;
         }
         else if (InimigoScore >= pontosParaVencer)
         {
-            mensagemFim.text = "INIMIGO VENCEU!";
+            mensagemFim.text = "LADO DIREITO GANHOU!";
             Time.timeScale = 0;
             jogoAcabou = true;
         }
         else
         {
-            bool vaiParaInimigo = JogadorScore > InimigoScore;
-            bo.ResetarBola(vaiParaInimigo);
+            bool vaiParaDireita = JogadorScore > InimigoScore;
+            bo.ResetarBola(vaiParaDireita);
         }
     }
 }
