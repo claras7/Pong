@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 189832379}
-  - component: {fileID: 189832378}
+  - component: {fileID: 189832380}
   m_Layer: 0
   m_Name: servidor
   m_TagString: Untagged
@@ -136,24 +136,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &189832378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 189832377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53adcdd0718f7e0459036c2f3c7e2e6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  raqueteServidor: {fileID: 1613394143}
-  raqueteCliente: {fileID: 1129688164}
-  bolinha: {fileID: 614813268}
-  gm: {fileID: 1350600977}
-  clienteConectado: 0
-  velocidadeRaquete: 8
 --- !u!4 &189832379
 Transform:
   m_ObjectHideFlags: 0
@@ -169,6 +151,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &189832380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189832377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae58e4c6c2456e24f9640451d2a41b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raquetes:
+  - {fileID: 1613394143}
+  - {fileID: 270565624}
+  - {fileID: 1591576608}
+  - {fileID: 1129688164}
+  bolinha: {fileID: 614813268}
+  gm: {fileID: 1350600977}
 --- !u!1 &270565620
 GameObject:
   m_ObjectHideFlags: 0
