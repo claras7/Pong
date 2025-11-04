@@ -168,8 +168,10 @@ MonoBehaviour:
   - {fileID: 270565624}
   - {fileID: 1591576608}
   - {fileID: 1129688164}
-  bolinha: {fileID: 614813268}
+  rbBola: {fileID: 614813265}
   gm: {fileID: 1350600977}
+  velocidadeRaquete: 8
+  intervaloEnvio: 0.05
 --- !u!1 &270565620
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +183,6 @@ GameObject:
   - component: {fileID: 270565624}
   - component: {fileID: 270565623}
   - component: {fileID: 270565622}
-  - component: {fileID: 270565621}
   m_Layer: 0
   m_Name: Inimigo (2)
   m_TagString: Untagged
@@ -189,27 +190,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &270565621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270565620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4483c44fae53c3b49af3d81fea0c9eb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meuID: 1
-  raquetes:
-  - {fileID: 1613394143}
-  - {fileID: 270565624}
-  - {fileID: 1591576608}
-  - {fileID: 1129688164}
-  bolinha: {fileID: 614813268}
-  gm: {fileID: 1350600977}
-  ipServidor: 127.0.0.1
 --- !u!61 &270565622
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1459,7 +1439,6 @@ GameObject:
   - component: {fileID: 1129688164}
   - component: {fileID: 1129688163}
   - component: {fileID: 1129688165}
-  - component: {fileID: 1129688166}
   m_Layer: 0
   m_Name: Inimigo
   m_TagString: Untagged
@@ -1583,27 +1562,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.78197867}
   m_EdgeRadius: 0
---- !u!114 &1129688166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129688162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4483c44fae53c3b49af3d81fea0c9eb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meuID: 3
-  raquetes:
-  - {fileID: 1613394143}
-  - {fileID: 270565624}
-  - {fileID: 1591576608}
-  - {fileID: 1129688164}
-  bolinha: {fileID: 614813268}
-  gm: {fileID: 1350600977}
-  ipServidor: 127.0.0.1
 --- !u!1 &1301771299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,7 +1700,6 @@ GameObject:
   - component: {fileID: 1591576608}
   - component: {fileID: 1591576611}
   - component: {fileID: 1591576610}
-  - component: {fileID: 1591576609}
   m_Layer: 0
   m_Name: Inimigo (1)
   m_TagString: Untagged
@@ -1765,27 +1722,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1591576609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591576607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4483c44fae53c3b49af3d81fea0c9eb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meuID: 2
-  raquetes:
-  - {fileID: 1613394143}
-  - {fileID: 270565624}
-  - {fileID: 1591576608}
-  - {fileID: 1129688164}
-  bolinha: {fileID: 614813268}
-  gm: {fileID: 1350600977}
-  ipServidor: 127.0.0.1
 --- !u!61 &1591576610
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1898,7 +1834,6 @@ GameObject:
   - component: {fileID: 1613394143}
   - component: {fileID: 1613394142}
   - component: {fileID: 1613394145}
-  - component: {fileID: 1613394144}
   m_Layer: 0
   m_Name: 'Jogador '
   m_TagString: Untagged
@@ -1976,25 +1911,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1613394144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1613394141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae58e4c6c2456e24f9640451d2a41b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  raquetes:
-  - {fileID: 1613394143}
-  - {fileID: 270565624}
-  - {fileID: 1591576608}
-  - {fileID: 1129688164}
-  bolinha: {fileID: 614813268}
-  gm: {fileID: 1350600977}
 --- !u!61 &1613394145
 BoxCollider2D:
   m_ObjectHideFlags: 0

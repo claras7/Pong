@@ -19,6 +19,12 @@ public class UnityMainThreadDispatcher : MonoBehaviour
 
     void Awake()
     {
+        if (FindObjectsOfType<UnityMainThreadDispatcher>().Length > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         DontDestroyOnLoad(gameObject);
     }
 }
