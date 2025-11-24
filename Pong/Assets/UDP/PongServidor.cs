@@ -30,14 +30,14 @@ public class PongServidor : MonoBehaviour
 
     void Update()
     {
-        // --- Movimentação da raquete do SERVIDOR (esquerda) ---
+        // Raquete do servidor
         float inputServidor = Input.GetAxisRaw("Vertical");
         raqueteEsquerda.Translate(Vector3.up * inputServidor * velocidadeRaquete * Time.deltaTime);
 
-        // --- Movimentação da raquete do CLIENTE (direita) ---
+        // Raquete do cliente
         raqueteDireita.Translate(Vector3.up * inputCliente * velocidadeRaquete * Time.deltaTime);
 
-        // --- Envia o estado do jogo para o cliente ---
+        // Envia estado para o cliente
         EnviarEstado();
     }
 
@@ -54,7 +54,6 @@ public class PongServidor : MonoBehaviour
         bola.linearVelocity = direcao * velocidadeInicialBola;
     }
 
-    // --- RECEBENDO INPUT DO CLIENTE ---
     void ReceberInput(IAsyncResult ar)
     {
         try
@@ -78,7 +77,6 @@ public class PongServidor : MonoBehaviour
         udp.BeginReceive(ReceberInput, null);
     }
 
-    // --- ENVIANDO ESTADO DO JOGO PARA O CLIENTE ---
     void EnviarEstado()
     {
         if (clienteEndPoint == null) return;

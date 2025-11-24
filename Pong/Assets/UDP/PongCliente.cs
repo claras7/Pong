@@ -4,22 +4,23 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-
 public class PongCliente : MonoBehaviour
 {
+    [Header("Referências Visuais")]
     public Rigidbody2D bola;
     public Transform raqueteEsquerda;
     public Transform raqueteDireita;
 
-    UdpClient udp;
-    IPEndPoint servidorEndPoint;
+    [Header("Configuração de Rede")]
+    public string serverIP = "192.168.0.15"; // Coloque aqui o IP do servidor
+    public int serverPort = 5000;
 
-    string ipDoServidor = "127.0.0.1"; // TROQUE SE FOR ONLINE
+    private UdpClient udp;
+    private IPEndPoint servidorEndPoint;
 
     void Start()
     {
-        servidorEndPoint = new IPEndPoint(IPAddress.Parse(ipDoServidor), 5000);
-
+        servidorEndPoint = new IPEndPoint(IPAddress.Parse(serverIP), serverPort);
         udp = new UdpClient();
         udp.Connect(servidorEndPoint);
 
@@ -28,32 +29,42 @@ public class PongCliente : MonoBehaviour
 
     void Update()
     {
+        // Lê input do cliente (raquete direita)
         float input = Input.GetAxisRaw("Vertical");
 
-        // Envia input da raquete direita para o servidor
+        // Envia input para o servidor
         byte[] data = Encoding.UTF8.GetBytes(input.ToString());
         udp.Send(data, data.Length);
     }
 
-    // --- RECEBE POSIÇÕES DO SERVIDOR ---
     void ReceberEstado(IAsyncResult ar)
     {
-        IPEndPoint ep = new IPEndPoint(IPAddress.Any, 0);
-        byte[] data = udp.EndReceive(ar, ref ep);
-
-        string msg = Encoding.UTF8.GetString(data);
-        string[] valores = msg.Split(';');
-
-        if (valores.Length == 4)
+        try
         {
-            float bx = float.Parse(valores[0]);
-            float by = float.Parse(valores[1]);
-            float ly = float.Parse(valores[2]);
-            float ry = float.Parse(valores[3]);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Any, 0);
+            byte[] data = udp.EndReceive(ar, ref ep);
 
-            bola.position = new Vector2(bx, by);
-            raqueteEsquerda.position = new Vector3(raqueteEsquerda.position.x, ly, 0);
-            raqueteDireita.position = new Vector3(raqueteDireita.position.x, ry, 0);
+            string msg = Encoding.UTF8.GetString(data);
+            string[] valores = msg.Split(';');
+
+            if (valores.Length == 4)
+            {
+                float bx = float.Parse(valores[0]);
+                float by = float.Parse(valores[1]);
+                float ly = float.Parse(valores[2]);
+                float ry = float.Parse(valores[3]);
+
+                UnityMainThreadDispatcher.Enqueue(() =>
+                {
+                    bola.position = new Vector2(bx, by);
+                    raqueteEsquerda.position = new Vector3(raqueteEsquerda.position.x, ly, 0);
+                    raqueteDireita.position = new Vector3(raqueteDireita.position.x, ry, 0);
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Erro ao receber estado: " + ex.Message);
         }
 
         udp.BeginReceive(ReceberEstado, null);
